@@ -1,0 +1,471 @@
+.pageWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f9f9;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 1000px;
+    width: 100%;
+    height: 95vh;
+    min-height: 600px;
+}
+
+.imageSection {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.loginImage {
+    width: 100%;
+    height: 550px;
+    object-fit: cover;
+}
+
+.formSection {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;   /* 🔥 Start content from top */
+    justify-content: center;
+    background: white;
+    padding: 40px 20px;
+    overflow-y: auto;          /* scroll if form is tall */
+}
+
+.formContainer {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* 🔥 header + form stack from top */
+}
+
+/* Header always visible at top */
+.headerSection {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.welcomeTitle {
+    font-size: 28px;          /* 🔥 slightly bigger */
+    color: #222;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* Tabs */
+.tabButtons {
+    display: flex;
+    background: #e8f5f3;
+    border-radius: 25px;
+    padding: 4px;
+    margin-bottom: 27px;
+    width: 100%;
+}
+
+.tabBtn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.tabBtn.active {
+    background: #337BDA;
+    color: white;
+}
+
+.tabBtn.inactive {
+    background: transparent;
+    color: #999;
+}
+
+/* Form */
+.form {
+    width: 100%;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.inputContainer {
+    position: relative;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 18px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input:focus {
+    border-color: #337BDA;
+}
+
+.input::placeholder {
+    color: #aaa;
+}
+
+.passwordToggle {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+    font-size: 16px;
+}
+
+/* Buttons */
+.loginBtn {
+    width: 100%;
+    padding: 14px;
+    background: #337BDA;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 18px;
+}
+
+.loginBtn:hover {
+    background: #337BDA;
+    transform: translateY(-2px);
+}
+
+.divider {
+    text-align: center;
+    margin: 15px 0;
+    color: #999;
+    font-size: 14px;
+}
+
+.googleBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #333;
+    font-size: 14px;
+}
+
+.googleBtn:hover {
+    border-color: #49BBBD;
+}
+
+.googleIcon {
+    width: 22px;
+    height: 22px;
+    background: url('https://developers.google.com/identity/images/g-logo.png') center/contain no-repeat;
+    margin-right: 10px;
+}
+/* Add these styles to your Signup.module.css file */
+
+/* Role Selection Styles */
+.roleSelection {
+    margin: 30px 0;
+    padding: 20px 0;
+}
+
+.roleCards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.roleCard {
+    background: white;
+    border: 2px solid #e1e5e9;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    height: 180px;
+}
+
+.roleCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.roleCard:hover::before {
+    left: 100%;
+}
+
+.roleCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.studentCard:hover {
+    border-color: #4f46e5;
+    background: linear-gradient(135deg, #f8faff, #eef2ff);
+}
+
+.instructorCard:hover {
+    border-color: #7c3aed;
+    background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+}
+
+.roleIcon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 1.8rem;
+    color: white;
+}
+
+.studentCard .roleIcon {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+.instructorCard .roleIcon {
+    background: linear-gradient(135deg, #7c3aed, #ec4899);
+}
+
+.roleTitle {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 10px;
+}
+
+
+
+/* Selected Role Display */
+.selectedRole {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f0f9ff;
+    border: 1px solid #0ea5e9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.roleIndicator {
+    color: #0c4a6e;
+    font-weight: 500;
+    margin: 0;
+}
+
+.roleBadge {
+    background: #0ea5e9;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-left: 8px;
+}
+
+.changeRole {
+    background: transparent;
+    border: 1px solid #0ea5e9;
+    color: #0ea5e9;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.changeRole:hover {
+    background: #0ea5e9;
+    color: white;
+}
+
+/* Form Row for Side-by-Side Inputs */
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Message Styles */
+.error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.successMessage {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    color: #0c4a6e;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.errorMessage {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Additional Links */
+.additionalLinks {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.signupPrompt {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.signupLink {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.signupLink:hover {
+    color: #3730a3;
+    text-decoration: underline;
+}
+
+/* Button Loading State */
+.loginBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .roleCards {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .formRow {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .selectedRole {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .roleCard {
+        padding: 25px 15px;
+    }
+    
+    .roleIcon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .roleTitle {
+        font-size: 1.2rem;
+    }
+    
+    .roleDescription {
+        font-size: 0.9rem;
+    }
+}
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        max-width: 400px;
+        height: auto;
+    }
+
+    .imageSection {
+        display: none;
+    }
+
+    .formSection {
+        padding: 30px 15px;
+    }
+
+    .welcomeTitle {
+        font-size: 22px;
+    }
+}
