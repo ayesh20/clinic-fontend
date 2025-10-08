@@ -1,0 +1,256 @@
+/* Main wrapper */
+.appointmentWrapper {
+    background: #f4f9f9;
+    min-height: 100vh;
+    padding: 100px 20px 40px;
+}
+
+/* Container */
+.container {
+    max-width: 750px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 50px 60px;
+}
+
+/* Doctor Section */
+.doctorSection {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 40px;
+    align-items: flex-start;
+}
+
+.doctorImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #e8f5f3;
+}
+
+.doctorInfo {
+    flex: 1;
+}
+
+.doctorName {
+    font-size: 32px;
+    color: #00B8A9;
+    margin: 0 0 8px 0;
+    font-weight: 700;
+}
+
+.specialty {
+    color: #999;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0 0 15px 0;
+}
+
+.description {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Booking Section */
+.bookingSection {
+    margin-top: 40px;
+}
+
+.sectionTitle {
+    font-size: 22px;
+    color: #222;
+    margin: 0 0 20px 0;
+    font-weight: 700;
+}
+
+/* Date Selector */
+.dateSelector {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 40px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.dateBtn {
+    min-width: 70px;
+    padding: 12px 10px;
+    border: 2px solid #e8e8e8;
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.dateBtn:hover {
+    border-color: #337BDA;
+}
+
+.dateBtn.dateActive {
+    background: #337BDA;
+    border-color: #337BDA;
+}
+
+.dayLabel {
+    font-size: 13px;
+    color: #999;
+    font-weight: 500;
+}
+
+.dateBtn.dateActive .dayLabel {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.dateLabel {
+    font-size: 20px;
+    color: #333;
+    font-weight: 700;
+}
+
+.dateBtn.dateActive .dateLabel {
+    color: white;
+}
+
+/* Time Selector */
+.timeSelector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 35px;
+}
+
+.timeBtn {
+    padding: 14px 20px;
+    border: 2px solid #e8e8e8;
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.timeBtn:hover:not(.timeDisabled) {
+    border-color: #337BDA;
+}
+
+.timeBtn.timeActive {
+    background: #337BDA;
+    border-color: #337BDA;
+    color: white;
+}
+
+.timeBtn.timeDisabled {
+    background: #fafafa;
+    color: #ddd;
+    cursor: not-allowed;
+    border-color: #f0f0f0;
+}
+
+/* Form */
+.appointmentForm {
+    margin-top: 30px;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.input {
+    width: 100%;
+    padding: 14px 20px;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    outline: none;
+    background: #fafafa;
+}
+
+.input:focus {
+    border-color: #337BDA;
+    background: white;
+}
+
+.input::placeholder {
+    color: #bbb;
+}
+
+/* Book Button */
+.bookBtn {
+    width: 100%;
+    padding: 16px;
+    background: #337BDA;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.bookBtn:hover {
+    background: #2868c4;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(51, 123, 218, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 25px;
+    }
+
+    .doctorSection {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .doctorName {
+        font-size: 26px;
+    }
+
+    .dateSelector {
+        justify-content: flex-start;
+    }
+
+    .timeSelector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .appointmentWrapper {
+        padding: 80px 15px 30px;
+    }
+
+    .container {
+        padding: 25px 20px;
+    }
+
+    .timeSelector {
+        grid-template-columns: 1fr;
+    }
+}
