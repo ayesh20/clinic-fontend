@@ -1,0 +1,202 @@
+/* Main wrapper */
+.confirmationWrapper {
+    background: linear-gradient(135deg, #E3F2FD 0%, #F3E5F5 100%);
+    min-height: 100vh;
+    padding: 80px 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Container */
+.container {
+    max-width: 650px;
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    padding: 50px 60px;
+    text-align: center;
+}
+
+/* Success Icon */
+.successIcon {
+    margin: 0 auto 30px;
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Title */
+.title {
+    font-size: 28px;
+    color: #222;
+    margin: 0 0 40px 0;
+    font-weight: 700;
+}
+
+/* Section */
+.section {
+    margin-bottom: 35px;
+    text-align: left;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    color: #222;
+    margin: 0 0 15px 0;
+    font-weight: 700;
+}
+
+/* Details Card */
+.detailsCard {
+    background: #FAFAFA;
+    border-radius: 15px;
+    padding: 25px 30px;
+}
+
+.detailRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.detailRow:last-child {
+    border-bottom: none;
+}
+
+.iconLabel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.iconLabel i {
+    font-size: 18px;
+    color: #666;
+    width: 20px;
+    text-align: center;
+}
+
+.dashIcon {
+    font-size: 20px;
+    color: #666;
+    width: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.label {
+    font-size: 15px;
+    color: #555;
+    font-weight: 600;
+}
+
+.value {
+    font-size: 15px;
+    color: #222;
+    font-weight: 600;
+}
+
+/* Button Group */
+.buttonGroup {
+    display: flex;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.downloadBtn,
+.homeBtn {
+    flex: 1;
+    padding: 14px 25px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.downloadBtn {
+    background: white;
+    color: #666;
+    border: 2px solid #E0E0E0;
+}
+
+.downloadBtn:hover {
+    border-color: #337BDA;
+    color: #337BDA;
+    transform: translateY(-2px);
+}
+
+.homeBtn {
+    background: white;
+    color: #666;
+    border: 2px solid #E0E0E0;
+}
+
+.homeBtn:hover {
+    border-color: #337BDA;
+    color: #337BDA;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 40px 30px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .detailsCard {
+        padding: 20px;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirmationWrapper {
+        padding: 60px 15px 30px;
+    }
+
+    .container {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+
+    .detailRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        padding: 10px 0;
+    }
+
+    .label {
+        font-size: 13px;
+    }
+
+    .value {
+        font-size: 14px;
+    }
+}
