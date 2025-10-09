@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Appointment.module.css';
+import styles from './Appoinment.module.css';
 
 export default function Appointment() {
     const [selectedDate, setSelectedDate] = useState('23');
