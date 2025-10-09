@@ -1,0 +1,169 @@
+/* Main wrapper */
+.profileWrapper {
+    background: #f4f9f9;
+    min-height: 100vh;
+    padding: 100px 20px 40px;
+}
+
+/* Container */
+.container {
+    max-width: 750px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 50px 60px;
+}
+
+/* Title */
+.title {
+    font-size: 28px;
+    color: #00B8A9;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+/* Profile Section Layout */
+.profileContainer {
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+/* Profile Picture */
+.imageSection {
+    flex: 1;
+    text-align: center;
+}
+
+.profileImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #00B8A9;
+    background: #e8f5f3;
+    margin-bottom: 15px;
+}
+
+.uploadBtn {
+    background: #337BDA;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.uploadBtn:hover {
+    background: #2868c4;
+}
+
+/* Form Section */
+.formSection {
+    flex: 2;
+    width: 100%;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Input + Textarea */
+.input, .textarea, select {
+    width: 100%;
+    padding: 14px 20px;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    outline: none;
+    background: #fafafa;
+}
+
+.input:focus, .textarea:focus, select:focus {
+    border-color: #337BDA;
+    background: white;
+}
+
+.textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* Birthday Row */
+.birthdayRow {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Save Button */
+.saveBtn {
+    width: 100%;
+    padding: 16px;
+    background: #337BDA;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.saveBtn:hover {
+    background: #2868c4;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(51, 123, 218, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 25px;
+    }
+
+    .profileContainer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .formSection {
+        width: 100%;
+    }
+
+    .birthdayRow {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .profileWrapper {
+        padding: 80px 15px 30px;
+    }
+
+    .container {
+        padding: 25px 20px;
+    }
+
+    .profileImage {
+        width: 120px;
+        height: 120px;
+    }
+}
