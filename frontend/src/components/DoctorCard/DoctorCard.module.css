@@ -1,0 +1,58 @@
+.card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #D4D2E3;
+  text-align: center;
+  padding: 24px 18px;
+  transition: all 0.3s ease;
+  width: 270px;
+  font-family: "Lexend Exa", sans-serif;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 16px rgba(64, 124, 226, 0.15);
+}
+
+.image {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+
+.name {
+  color: #007E85;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.specialty {
+  color: #665E5E;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 0.8rem;
+  color: #555555;
+  margin-bottom: 14px;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #EEF3FF;
+  color: #407CE2;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+}
+
+.icon {
+  fill: #407CE2;
+}

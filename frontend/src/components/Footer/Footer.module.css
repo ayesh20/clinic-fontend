@@ -1,0 +1,125 @@
+/* Footer.module.css */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+.footer {
+  background-color: #337BDA;
+  color: #ffffff;
+  padding: 60px 0 40px 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.footerMain {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.footerSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.copyright {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.columnTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linkList li {
+  margin-bottom: 8px;
+}
+
+.linkList a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: color 0.3s ease;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.linkList a:hover {
+  color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footerMain {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  
+  .footerContent {
+    padding: 0 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 0 30px 0;
+  }
+  
+  .footerMain {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  
+  .footerContent {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 30px 0 20px 0;
+  }
+  
+  .footerMain {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .footerContent {
+    padding: 0 15px;
+  }
+  
+  .sectionTitle {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+  }
+  
+  .columnTitle {
+    margin-bottom: 12px;
+  }
+}
