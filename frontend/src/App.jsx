@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext.jsx"; // Ensure path is correct
 
 
+import Home from './pages/Home/Home';
+import Doctors from './pages/Doctors/Doctors';
+import ContactUs from './pages/ContactUs/Contactus';
+
 
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import OTPVerification from './pages/OTPVerification/OTPVerification';
@@ -29,8 +33,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Public routes */}
-          
-         
+        
+        
+          <Route path="/" element={<Home />} />
+                    <Route path="/Doctors" element={<Doctors />} />
+                    <Route path="/ContactUs" element={<ContactUs />} />
+
+
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/OTPVerification" element={<OTPVerification />} />
           <Route path="/ResetConfirm" element={<ResetConfirm />} />

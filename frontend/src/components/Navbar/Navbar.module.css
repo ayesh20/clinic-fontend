@@ -1,0 +1,228 @@
+/* Navbar.module.css */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 100px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #D9D9D9;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'DM Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+/* LOGO SECTION */
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #337BDA;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* NAV LINKS */
+.navLinks {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #007E85;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+  padding: 8px 0;
+}
+
+.navLink:hover {
+  color: #337BDA;
+}
+
+.navLink.active {
+  color: #337BDA;
+  font-weight: 600;
+}
+
+.navLink.active::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #337BDA;
+  border-radius: 2px;
+}
+
+/* AUTH SECTION */
+.authSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.signUp {
+  color: #337BDA;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 8px 20px;
+  border: 2px solid #337BDA;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+}
+
+.signUp:hover {
+  background-color: #337BDA;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.loginBtn {
+  background-color: #337BDA;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+}
+
+.loginBtn:hover {
+  background-color: #2a6bc7;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .navbar {
+    padding: 16px 60px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 16px 40px;
+  }
+  
+  .navLinks {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 16px 30px;
+    flex-wrap: wrap;
+  }
+  
+  .navLinks {
+    gap: 20px;
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .logoSection {
+    order: 1;
+  }
+  
+  .authSection {
+    order: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+  
+  .navLinks {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .navLink {
+    font-size: 0.9rem;
+  }
+  
+  .logoText {
+    font-size: 1.3rem;
+  }
+  
+  .signUp {
+    padding: 6px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .loginBtn {
+    padding: 8px 18px;
+    font-size: 0.9rem;
+  }
+  
+  .authSection {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar {
+    padding: 10px 15px;
+  }
+  
+  .navLinks {
+    gap: 12px;
+  }
+  
+  .navLink {
+    font-size: 0.85rem;
+  }
+  
+  .logoText {
+    font-size: 1.2rem;
+  }
+  
+  .authSection {
+    gap: 10px;
+  }
+  
+  .signUp, .loginBtn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}

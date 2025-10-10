@@ -1,0 +1,51 @@
+.wrapper {
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  font-family: "Lexend Exa", sans-serif;
+}
+
+.header {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.header h2 {
+  color: #221F1F;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.header p {
+  color: #555555;
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+
+.filter {
+  display: flex;
+  justify-content: flex-end;
+  margin: 40px 100px 20px;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter label {
+  color: #221F1F;
+  font-weight: 500;
+}
+
+.filter select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #D4D2E3;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+  justify-items: center;
+  padding: 0 100px 80px;
+}

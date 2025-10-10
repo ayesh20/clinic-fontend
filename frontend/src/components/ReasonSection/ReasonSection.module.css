@@ -1,0 +1,26 @@
+.reason {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 100px;
+  background: #ECECEC;
+}
+
+.text {
+  max-width: 40%;
+}
+
+.text h2 {
+  color: #1b1b1b;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.text p {
+  color: #555;
+}
+
+.image img {
+  width: 500px;
+  border-radius: 10px;
+}
