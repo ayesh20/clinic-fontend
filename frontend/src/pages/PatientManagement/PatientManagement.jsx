@@ -46,6 +46,7 @@ export default function PatientManagement() {
 
   return (
     <div className={styles.profileWrapper}>
+       <div className={styles.container}>
       <h2 className={styles.title}>Edit Profile</h2>
 
       <div className={styles.profileContainer}>
@@ -174,6 +175,7 @@ export default function PatientManagement() {
             Save Changes
           </button>
         </form>
+      </div>
       </div>
     </div>
   );
