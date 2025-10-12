@@ -15,6 +15,8 @@ import SetNewPassword from './pages/SetNewPassword/SetNewPassword';
 import SuccessfulReset from './pages/SuccessfulReset/SuccessfulReset';
 import Appointment from "./pages/Appoinment/Appoinment.jsx";
 import PatientManagement from "./pages/PatientManagement/PatientManagement.jsx";
+import DoctorProfile from "./pages/DoctorProfile/doctorProfile.jsx";
+import ViewAppointments from "./pages/ViewAppointments/ViewAppointments.jsx";
 
 
 // PrivateRoute wrapper
@@ -46,6 +48,7 @@ function App() {
           <Route path="/SetNewPassword" element={<SetNewPassword />} />
           <Route path="/SuccessfulReset" element={<SuccessfulReset />} />
           <Route path="/PatientManagement" element={<PatientManagement />} />
+          <Route path="/doctorProfile" element={<DoctorProfile />} />
 
           {/* Protected routes */}
           
@@ -68,6 +71,15 @@ function App() {
             element={
               <PrivateRoute>
                 <Appointment />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/viewappointment"
+            element={
+              <PrivateRoute>
+                <ViewAppointments />
               </PrivateRoute>
             }
           />
