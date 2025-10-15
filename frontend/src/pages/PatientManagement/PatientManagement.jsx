@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import styles from "./PatientManagement.module.css";
+import Navbar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
+
 
 export default function PatientManagement() {
   const [profilePic, setProfilePic] = useState("/default-profile.jpg");
@@ -45,6 +48,8 @@ export default function PatientManagement() {
   };
 
   return (
+    <div> <Navbar />
+      
     <div className={styles.profileWrapper}>
        <div className={styles.container}>
       <h2 className={styles.title}>Edit Profile</h2>
@@ -177,6 +182,9 @@ export default function PatientManagement() {
         </form>
       </div>
       </div>
+       <Footer />
     </div>
+    </div>
+    
   );
 }
