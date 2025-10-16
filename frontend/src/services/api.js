@@ -9,7 +9,7 @@ const apiClient = axios.create({
   },
 })
 
-// Request interceptor to add auth token (FIXED - skips auth for public endpoints)
+// Request interceptor to add auth token
 apiClient.interceptors.request.use(
   (config) => {
     // Define public endpoints that don't need authentication
@@ -18,27 +18,27 @@ apiClient.interceptors.request.use(
       '/patients/register',
       '/doctors/login',
       '/doctors/register',
+      '/doctors',
+      '/doctors/',
       '/contact'
     ];
     
-    // Check if this is a registration/login request
+    // Check if this is a public endpoint
     const isPublicEndpoint = publicEndpoints.some(endpoint => 
       config.url.includes(endpoint)
     );
     
-    const isRegistration = (config.url.includes('/patients') && 
-                          config.method === 'post' && 
-                          !config.url.includes('/patients/')) ||
-                          (config.url.includes('/doctors') && 
-                          config.method === 'post' && 
-                          !config.url.includes('/doctors/'));
-    
     // Add authorization token only if not a public endpoint
-    if (!isPublicEndpoint && !isRegistration) {
+    if (!isPublicEndpoint) {
       const token = localStorage.getItem('authToken');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
+    }
+    
+    // If data is FormData, remove Content-Type to let axios set it with boundary
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
     }
     
     return config;
@@ -48,7 +48,7 @@ apiClient.interceptors.request.use(
   }
 )
 
-// Response interceptor (unchanged)
+// Response interceptor
 apiClient.interceptors.response.use(
   (response) => {
     return response.data
@@ -68,13 +68,190 @@ apiClient.interceptors.response.use(
   }
 )
 
+// Patient API
+export const patientAPI = {
+  // Register a new patient
+  register: async (patientData) => {
+    try {
+      const response = await apiClient.post('/patients/register', patientData);
+      // Store token if provided
+      if (response.token) {
+        localStorage.setItem('authToken', response.token);
+      }
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Login patient
+  login: async (credentials) => {
+    try {
+      const response = await apiClient.post('/patients/login', credentials);
+      // Store token
+      if (response.token) {
+        localStorage.setItem('authToken', response.token);
+      }
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Get patient profile
+  getProfile: async () => {
+    try {
+      const response = await apiClient.get('/patients/profile');
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Update patient profile
+  updateProfile: async (profileData) => {
+    try {
+      const response = await apiClient.put('/patients/profile', profileData);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Delete patient account
+  deleteAccount: async () => {
+    try {
+      const response = await apiClient.delete('/patients/profile');
+      // Clear token after deletion
+      localStorage.removeItem('authToken');
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Logout
+  logout: () => {
+    localStorage.removeItem('authToken');
+  }
+};
+
+// Doctor API
+export const doctorAPI = {
+  // Register a new doctor
+  register: async (doctorData) => {
+    try {
+      // The request interceptor will automatically handle FormData
+      const response = await apiClient.post('/doctors/register', doctorData);
+      // Store token if provided
+      if (response.token) {
+        localStorage.setItem('authToken', response.token);
+      }
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Login doctor
+  login: async (credentials) => {
+    try {
+      const response = await apiClient.post('/doctors/login', credentials);
+      // Store token
+      if (response.token) {
+        localStorage.setItem('authToken', response.token);
+      }
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Get doctor profile
+  getProfile: async () => {
+    try {
+      const response = await apiClient.get('/doctors/profile');
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Update doctor profile
+  updateProfile: async (profileData) => {
+    try {
+      const response = await apiClient.put('/doctors/profile', profileData);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Delete doctor account
+  deleteAccount: async () => {
+    try {
+      const response = await apiClient.delete('/doctors/profile');
+      // Clear token after deletion
+      localStorage.removeItem('authToken');
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Get all doctors (with optional filters)
+  getAllDoctors: async (params = {}) => {
+    try {
+      const response = await apiClient.get('/doctors', { params });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Get doctor by ID
+  getDoctorById: async (doctorId) => {
+    try {
+      const response = await apiClient.get(`/doctors/${doctorId}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Search doctors
+  searchDoctors: async (query) => {
+    try {
+      const response = await apiClient.get(`/doctors/search/${query}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Get doctors by specialization
+  getDoctorsBySpecialization: async (specialization) => {
+    try {
+      const response = await apiClient.get(`/doctors/specialization/${specialization}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Logout
+  logout: () => {
+    localStorage.removeItem('authToken');
+  }
+};
 
 // Export the axios instance for custom requests
 export { apiClient }
 
 // Export all APIs as default object
 const api = {
-  
+  patient: patientAPI,
+  doctor: doctorAPI
 }
 
 export default api

@@ -63,7 +63,7 @@ const Navbar = () => {
 
       {/* Right: Auth Buttons */}
       <div className={styles.authSection}>
-        <a href="#" className={styles.signUp}>Sign Up</a>
+        <NavLink to="/register" className={styles.signUp}>Sign Up</NavLink>
         <button className={styles.loginBtn}>Log In</button>
       </div>
     </nav>

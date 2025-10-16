@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import toast from "react-hot-toast";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { studentAPI, instructorAPI } from '../../services/api';
-import { useAuth } from "../../context/AuthContext.jsx"; // <- use AuthContext
+import { patientAPI, doctorAPI } from '../../services/api';
+import { useAuth } from "../../context/AuthContext.jsx"; 
 import styles from './Login.module.css';
 
 export default function Login() {

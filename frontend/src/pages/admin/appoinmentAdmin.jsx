@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { studentAPI, enrollmentAPI } from '../../services/api'
 import './admin.css'
 
-export default function StudentsAdmin() {
+export default function AppointmentAdmin() {
   const navigate = useNavigate()
   const [students, setStudents] = useState([])
   const [loading, setLoading] = useState(true)

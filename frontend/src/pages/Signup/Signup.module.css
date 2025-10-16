@@ -348,7 +348,12 @@
     gap: 15px;
     margin-bottom: 20px;
 }
-
+.formRow1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 45px;
+    margin-bottom: 20px;
+}
 /* Message Styles */
 .error {
     background: #fef2f2;

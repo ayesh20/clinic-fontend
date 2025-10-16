@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./DoctorCard.module.css";
 import { Star } from "lucide-react";
 
-const DoctorCard = ({ image, name, specialty, rating }) => {
+const DoctorCard = ({ image, name, specialty }) => {
   return (
     <div className={styles.card}>
       <img src={image} alt={name} className={styles.image} />
@@ -11,10 +11,7 @@ const DoctorCard = ({ image, name, specialty, rating }) => {
       <p className={styles.description}>
         Lorem ipsum dolor sit amet consectetur adipiscing elit amet hendrerit pretium nulla sed enim iaculis mi.
       </p>
-      <div className={styles.rating}>
-        <Star size={14} className={styles.icon} />
-        <span>{rating}</span>
-      </div>
+      
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { courseAPI, enrollmentAPI } from '../../services/api'
 import { getImageUrl, handleImageError } from '../../utils/imageUtils'
 import './admin.css'
 
-export default function CoursesAdmin() {
+export default function PatientAdmin() {
   const navigate = useNavigate()
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)

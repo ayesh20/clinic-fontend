@@ -6,12 +6,12 @@ import styles from "./Doctors.module.css";
 
 const Doctors = () => {
   const doctors = [
-    { id: 1, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST", rating: 4.7 },
-    { id: 2, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST", rating: 4.7 },
-    { id: 3, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST", rating: 4.7 },
-    { id: 4, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST", rating: 4.7 },
-    { id: 5, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST", rating: 4.7 },
-    { id: 6, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST", rating: 4.7 },
+    { id: 1, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST" },
+    { id: 2, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST" },
+    { id: 3, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST" },
+    { id: 4, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST" },
+    { id: 5, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST" },
+    { id: 6, image: "/images/doctor1.png", name: "Dr. John Carter", specialty: "CARDIOLOGIST" },
   ];
 
   return (

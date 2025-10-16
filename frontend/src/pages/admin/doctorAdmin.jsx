@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { instructorAPI, courseAPI } from '../../services/api'
+import { doctorAPI } from '../../services/api'
 import { getImageUrl, handleImageError } from '../../utils/imageUtils'
 import './admin.css'
 
-export default function InstructorsAdmin() {
+export default function DoctorsAdmin() {
   const navigate = useNavigate()
   const [instructors, setInstructors] = useState([])
   const [loading, setLoading] = useState(true)
@@ -137,7 +137,7 @@ export default function InstructorsAdmin() {
             className="form-input"
             style={{ width: '250px', margin: 0 }}
           />
-          <Link to="/admin/instructors/add" className="add-product-btn">
+          <Link to="/admin/adddoctor" className="add-product-btn">
             ➕ Add New Doctor
           </Link>
         </div>
