@@ -1,0 +1,249 @@
+/* Outer body/page background */
+body {
+    background-color: #f5f5f5; 
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Main content centered wrapper */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0; 
+}
+
+/* --- The Main Light-Grey Frame --- */
+.mainContentWrapper {
+  
+    background-color: #f0f0f0; 
+    padding: 20px 0 0 0; 
+    box-sizing: border-box;
+}
+
+/* --- White Color Background --- */
+.whiteFrame {
+    background-color: #fff; 
+    padding: 20px; 
+    margin: 0 20px; 
+    border-radius: 10px;
+}
+
+/* --- Profile Section (Inside the White Frame) --- */
+.profileSection {
+  display: flex;
+  align-items: center;
+  
+  justify-content: center; 
+  
+  padding: 0; 
+  margin-bottom: 20px; 
+}
+
+/* Profile Icon Styles */
+.profileIcon {
+  width: 120px;
+  height: 120px;
+  
+  border-radius: 50%;
+  background-color: #333; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-right: 20px;
+  
+  font-size: 100px; 
+  
+  line-height: 1; 
+}
+
+/* Icon class styles */
+.profileIcon .fas {
+    color: #fff; 
+}
+
+/* Profile Details Text Alignment */
+.profileDetails {
+    text-align: left;
+}
+
+/* Profile Details Text Color */
+.profileDetails h1, .profileDetails p {
+    color: #333; 
+}
+.profileDetails h1 {
+  font-weight: bold;
+}
+.profileDetails p {
+  color: #535353; 
+}
+.dot {
+    height: 8px;
+    width: 8px;
+    background-color: #333; 
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+
+/* --- Main Appointment Info Box --- */
+.appointmentBox {
+  background-color: #cdcecf; 
+  padding: 20px;
+  color: #fff;
+  margin-bottom: 20px; 
+  border-radius: 4px; 
+}
+
+.appointmentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px; 
+}
+
+/* Individual Info Card Styles */
+.infoCard {
+  background-color: #fff; 
+  padding: 15px;
+  border-radius: 4px;
+  min-height: 80px;
+  color: #333; 
+  
+  display: flex; 
+  flex-direction: column;
+  justify-content: center; 
+  text-align: left; 
+}
+
+.infoLabel {
+  font-size: 14px; 
+  font-weight: normal;
+  margin-bottom: 2px;
+  opacity: 0.9;
+  text-align: flex-start; 
+}
+
+.infoValue {
+  font-size: 20px; 
+  font-weight: bold;
+  text-align: center; 
+}
+
+/* Status value */
+.statusConfirmed {
+  color: #4CAF50; 
+}
+
+/* Note Area - Spans two columns */
+.noteBox {
+    grid-column: 1 / span 2; 
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 4px;
+    color: #333;
+    min-height: 100px; 
+}
+.noteBoxLabel {
+    font-size: 16px;
+    font-weight: normal;
+    color: #535353;
+    margin-bottom: 5px;
+}
+
+/* --- Previous Appointments Section --- */
+.previousAppointments {
+  background-color: transparent; 
+  padding: 0; 
+  margin: 0 0 20px 0; 
+}
+
+.previousAppointments h2 {
+  font-size: 20px;
+  color: #333; 
+  border-bottom: 1px solid #333; 
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  font-weight: bold; 
+}
+
+.previousTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0; 
+  text-align: left;
+}
+
+.previousTable th, .previousTable td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.previousTable th {
+  background-color: #e0e0e0; 
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+}
+
+.previousTable td {
+  background-color: #fff;
+  font-size: 14px;
+  color: #535353;
+  text-align: center; 
+  padding: 15px 12px;
+  border: none; 
+  margin-bottom: 2px;
+}
+
+/* Action Buttons  */
+.buttonSection {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 20px 40px 20px; 
+  background-color: #f0f0f0; 
+  margin: 0; 
+}
+
+/* Button styles for equal width and correct colors */
+.button {
+  padding: 15px 20px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  
+  /* Makes both buttons equal width */
+  flex-grow: 1; 
+  margin: 0 10px; 
+  
+  text-align: center;
+}
+
+.cancelButton {
+  background-color: #c9c8c8;
+  color: #333;
+}
+
+.backButton {
+  background-color: #c9c8c8; 
+  color: #333;
+  border: none;
+}
+
+.button:hover {
+  background-color: #0c0ce3; 
+
+}
+
+/* --- Footer --- */
+.footer {
+  background-color: #1976D2; /* Dark Blue */
+  color: #fff;
+  padding: 30px 0; 
+  margin-top: 0; 
+  font-size: 12px;
+  text-align: center;
+}

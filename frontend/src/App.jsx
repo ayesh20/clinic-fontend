@@ -18,6 +18,7 @@ import PatientManagement from "./pages/PatientManagement/PatientManagement.jsx";
 import DoctorProfile from "./pages/DoctorProfile/doctorProfile.jsx";
 import ViewAppointments from "./pages/ViewAppointments/ViewAppointments.jsx";
 
+import AppointmentDetails from "./pages/AppointmentDetails/AppointmentDetails.jsx";
 
 // PrivateRoute wrapper
 function PrivateRoute({ children }) {
@@ -80,6 +81,15 @@ function App() {
             element={
               <PrivateRoute>
                 <ViewAppointments />
+              </PrivateRoute>
+            }
+          />
+          
+          <Route
+            path="/appointment-details"
+            element={
+              <PrivateRoute>
+                <AppointmentDetails />
               </PrivateRoute>
             }
           />
