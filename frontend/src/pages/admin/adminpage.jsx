@@ -3,7 +3,8 @@ import { NavLink, Routes, Route, useLocation } from 'react-router-dom'
 import './admin.css'
 
 import AddDoctor from './addDoctor.jsx'
-
+import PatientAdmin from './patientAdmin.jsx'
+import DoctorsAdmin from './doctorAdmin.jsx'
 
 
 export default function AdminLayout() {
@@ -67,7 +68,7 @@ export default function AdminLayout() {
       <main className="admin-content">
       
         <Routes>
-          
+          <Route path='/patients' element={<PatientAdmin/>}/>
           <Route path='/adddoctor' element={<AddDoctor/>}/>
           {/* Add other routes as needed */}
         </Routes>

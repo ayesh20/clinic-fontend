@@ -7,6 +7,7 @@ import Home from './pages/Home/Home';
 import Doctors from './pages/Doctors/Doctors';
 import ContactUs from './pages/ContactUs/Contactus';
 import Register from "./pages/Signup/Signup.jsx";
+import Login from "./pages/Login/Login.jsx";
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import OTPVerification from './pages/OTPVerification/OTPVerification';
 import ResetConfirm from './pages/ResetConfirm/ResetConfirm';
@@ -16,8 +17,7 @@ import Appointment from "./pages/Appoinment/Appoinment.jsx";
 import PatientManagement from "./pages/PatientManagement/PatientManagement.jsx";
 import DoctorProfile from "./pages/DoctorProfile/doctorProfile.jsx";
 import AdminLayout from "./pages/admin/adminpage.jsx"
-
-
+import ViewAppointments from "./pages/ViewAppointments/ViewAppointments.jsx";
 import AppointmentDetails from "./pages/AppointmentDetails/AppointmentDetails.jsx";
 
 // PrivateRoute wrapper
@@ -66,6 +66,7 @@ function App() {
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/admin/*" element={<AdminLayout/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path="/login" element={<Login/>}/>
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/OTPVerification" element={<OTPVerification />} />
           <Route path="/ResetConfirm" element={<ResetConfirm />} />
@@ -107,7 +108,14 @@ function App() {
               </PrivateRoute>
             }
           />
-         
+         <Route
+            path="/appointmentdetails"
+            element={
+              <PrivateRoute>
+                <AppointmentDetails />
+              </PrivateRoute>
+            }
+          />
          
          
          </Routes>

@@ -93,7 +93,7 @@ export default function Register() {
                                 <button 
                                     className={`${styles.tabBtn} ${styles.inactive}`}
                                     type="button"
-                                    onClick={() => navigate('/')}
+                                    onClick={() => navigate('/login')}
                                 >
                                     Login
                                 </button>

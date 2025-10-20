@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { courseAPI, studentAPI, instructorAPI, enrollmentAPI } from '../../services/api'
+import { patientAPI, doctorAPI } from '../../services/api'
 import './admin.css'
 
 export default function Dashboard() {
   const navigate = useNavigate()
   const [stats, setStats] = useState({
-    totalCourses: 0,
-    totalStudents: 0,
-    totalInstructors: 0,
-    totalEnrollments: 0,
-    activeCourses: 0,
-    recentEnrollments: 0,
-    completionRate: 85,
-    averageRating: 4.5,
+    totalPatients: 0,
+    totalDoctors: 0,
+    activePatients: 0,
+    activeDoctors: 0,
     systemStatus: 'Online'
   })
   const [recentActivity, setRecentActivity] = useState([])
@@ -31,129 +27,72 @@ export default function Dashboard() {
       setError(null)
       
       // Fetch all data in parallel
-      const [courses, students, instructors, enrollments] = await Promise.all([
-        courseAPI.getAllCourses().catch((err) => {
-          console.error('Error fetching courses:', err)
-          return []
+      const [patientsResponse, doctorsResponse] = await Promise.all([
+        patientAPI.getAllPatients().catch((err) => {
+          console.error('Error fetching patients:', err)
+          return { patients: [] }
         }),
-        studentAPI.getAllStudents().catch((err) => {
-          console.error('Error fetching students:', err)
-          return []
-        }),
-        instructorAPI.getAllInstructors().catch((err) => {
-          console.error('Error fetching instructors:', err)
-          return []
-        }),
-        enrollmentAPI.getAllEnrollments().catch((err) => {
-          console.error('Error fetching enrollments:', err)
-          return []
+        doctorAPI.getAllDoctors().catch((err) => {
+          console.error('Error fetching doctors:', err)
+          return { doctors: [] }
         })
       ])
 
-      // Log the responses to debug the structure
-      console.log('Dashboard API Responses:', { courses, students, instructors, enrollments })
+      console.log('Dashboard API Responses:', { patientsResponse, doctorsResponse })
 
-      // Handle different response formats for courses
-      let coursesData = courses
-      if (courses && courses.courses) {
-        coursesData = courses.courses
-      } else if (courses && courses.data) {
-        coursesData = courses.data
-      }
-
-      // Handle different response formats for students
-      let studentsData = students
-      if (students && students.students) {
-        studentsData = students.students
-      } else if (students && students.users) {
-        studentsData = students.users
-      } else if (students && students.data) {
-        studentsData = students.data
-      }
-
-      // Handle different response formats for instructors
-      let instructorsData = instructors
-      if (instructors && instructors.instructors) {
-        instructorsData = instructors.instructors
-      } else if (instructors && instructors.data) {
-        instructorsData = instructors.data
-      }
-
-      // Handle different response formats for enrollments
-      let enrollmentsData = enrollments
-      if (enrollments && enrollments.enrollments) {
-        enrollmentsData = enrollments.enrollments
-      } else if (enrollments && enrollments.data) {
-        enrollmentsData = enrollments.data
-      }
+      // Extract data arrays
+      const patientsData = patientsResponse.patients || patientsResponse || []
+      const doctorsData = doctorsResponse.doctors || doctorsResponse || []
 
       // Ensure all data are arrays
-      if (!Array.isArray(coursesData)) coursesData = []
-      if (!Array.isArray(studentsData)) studentsData = []
-      if (!Array.isArray(instructorsData)) instructorsData = []
-      if (!Array.isArray(enrollmentsData)) enrollmentsData = []
+      const patients = Array.isArray(patientsData) ? patientsData : []
+      const doctors = Array.isArray(doctorsData) ? doctorsData : []
 
-      console.log('Processed data arrays:', {
-        coursesCount: coursesData.length,
-        studentsCount: studentsData.length,
-        instructorsCount: instructorsData.length,
-        enrollmentsCount: enrollmentsData.length
+      console.log('Processed data:', {
+        patientsCount: patients.length,
+        doctorsCount: doctors.length
       })
 
-      // Calculate stats - REMOVED the role filtering since students come from studentAPI
-      // All students from studentAPI are actual students, no need to filter by role
-      const activeCourses = coursesData.filter(course => 
-        course.status === 'active' || course.status !== 'inactive'
-      )
-      
-      // Get recent enrollments (last 30 days)
-      const thirtyDaysAgo = new Date()
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-      const recentEnrollments = enrollmentsData.filter(enrollment => {
-        const enrollmentDate = enrollment.enrollmentDate || enrollment.createdAt
-        return enrollmentDate && new Date(enrollmentDate) > thirtyDaysAgo
-      })
+      // Calculate stats
+      const activePatients = patients.filter(p => p.isActive !== false)
+      const activeDoctors = doctors.filter(d => d.isActive !== false)
 
       // Generate recent activity
       const activity = []
       
-      // Add recent enrollments to activity
-      recentEnrollments.slice(0, 3).forEach(enrollment => {
+      // Add recent patients to activity
+      patients.slice(-3).forEach(patient => {
         activity.push({
-          id: enrollment._id,
-          type: 'enrollment',
-          message: `New enrollment in ${enrollment.courseName || 'course'}`,
-          time: enrollment.enrollmentDate || enrollment.createdAt,
-          icon: '📚'
+          id: patient._id,
+          type: 'patient',
+          message: `New patient registered: ${patient.firstName} ${patient.lastName}`,
+          time: patient.createdAt,
+          icon: '🏥'
         })
       })
       
-      // Add recent courses to activity
-      coursesData.slice(-2).forEach(course => {
+      // Add recent doctors to activity
+      doctors.slice(-2).forEach(doctor => {
         activity.push({
-          id: course._id,
-          type: 'course',
-          message: `Course "${course.name || course.title}" ${course.status === 'active' ? 'activated' : 'added'}`,
-          time: course.createdAt || course.updatedAt,
-          icon: '🎓'
+          id: doctor._id,
+          type: 'doctor',
+          message: `New doctor joined: ${doctor.fullName}`,
+          time: doctor.createdAt,
+          icon: '👨‍⚕️'
         })
       })
 
       // Sort activity by time and take top 5
       const sortedActivity = activity
-        .filter(item => item.time) // Only include items with valid timestamps
+        .filter(item => item.time)
         .sort((a, b) => new Date(b.time) - new Date(a.time))
         .slice(0, 5)
 
       setStats({
-        totalCourses: coursesData.length,
-        totalStudents: studentsData.length, // Direct count, no role filtering
-        totalInstructors: instructorsData.length,
-        totalEnrollments: enrollmentsData.length,
-        activeCourses: activeCourses.length,
-        recentEnrollments: recentEnrollments.length,
-        completionRate: 85,
-        averageRating: 4.5,
+        totalPatients: patients.length,
+        totalDoctors: doctors.length,
+        activePatients: activePatients.length,
+        activeDoctors: activeDoctors.length,
         systemStatus: 'Online'
       })
 
@@ -207,7 +146,7 @@ export default function Dashboard() {
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <button 
             onClick={handleRefresh}
-            className={`action-btn  ${refreshing ? 'loading' : ''}`}
+            className={`action-btn ${refreshing ? 'loading' : ''}`}
             disabled={refreshing}
             title="Refresh Dashboard"
           >
@@ -218,28 +157,17 @@ export default function Dashboard() {
       
       {/* Main Stats Cards */}
       <div className="dashboard-stats" style={{ marginBottom: '30px' }}>
-        
-        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => handleNavigateToSection('/admin/students')}>
+        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => handleNavigateToSection('/admin/patients')}>
           <h3>Total Patients</h3>
-          <div className="stat-number">{stats.totalStudents}</div>
-          <div className="stat-label">Registered Patients</div>
+          <div className="stat-number">{stats.totalPatients}</div>
+          <div className="stat-label">{stats.activePatients} Active</div>
         </div>
         
-        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => handleNavigateToSection('/admin/instructors')}>
+        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => handleNavigateToSection('/admin/doctors')}>
           <h3>Total Doctors</h3>
-          <div className="stat-number">{stats.totalInstructors}</div>
-          <div className="stat-label">Doctors staff</div>
+          <div className="stat-number">{stats.totalDoctors}</div>
+          <div className="stat-label">{stats.activeDoctors} Active</div>
         </div>
-        
-        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => handleNavigateToSection('/admin/enrollments')}>
-          <h3>Total Appoinments</h3>
-          <div className="stat-number">{stats.totalEnrollments}</div>
-          <div className="stat-label">{stats.recentEnrollments} in last 30 days</div>
-        </div>
-      </div>
-
-      {/* Secondary Stats Cards */}
-      <div className="dashboard-stats" style={{ marginBottom: '30px' }}>
         
         <div className="stat-card">
           <h3>System Status</h3>
@@ -264,23 +192,46 @@ export default function Dashboard() {
       <div style={{ marginTop: '40px', marginBottom: '30px' }}>
         <h2 style={{ marginBottom: '20px', color: '#333' }}>Quick Actions</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
-          <Link to="/admin/courses/add" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
-            👨‍🏫 Add New Patient
+          <Link to="/admin/patients/add" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
+            🏥 Add New Patient
           </Link>
-          <Link to="/admin/instructors/add" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
-            👨‍🏫 Add New Doctor
+          <Link to="/admin/doctors/add" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
+            👨‍⚕️ Add New Doctor
           </Link>
-          
-          <Link to="/admin/enrollments" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
-            📊 View Appionments
+          <Link to="/admin/patients" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
+            👥 View All Patients
           </Link>
-          
-          
+          <Link to="/admin/doctors" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
+            📊 View All Doctors
+          </Link>
         </div>
       </div>
 
-      
-
+      {/* Recent Activity */}
+      {recentActivity.length > 0 && (
+        <div style={{ marginTop: '40px' }}>
+          <h2 style={{ marginBottom: '20px', color: '#333' }}>Recent Activity</h2>
+          <div style={{ background: 'white', borderRadius: '8px', padding: '20px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+            {recentActivity.map((activity) => (
+              <div key={activity.id} style={{ 
+                padding: '15px', 
+                borderBottom: '1px solid #eee',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '15px'
+              }}>
+                <span style={{ fontSize: '24px' }}>{activity.icon}</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: '500', color: '#333' }}>{activity.message}</div>
+                  <div style={{ fontSize: '12px', color: '#999', marginTop: '4px' }}>
+                    {new Date(activity.time).toLocaleString()}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

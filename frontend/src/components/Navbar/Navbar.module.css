@@ -25,8 +25,8 @@
 }
 
 .logo {
-  width: 36px;
-  height: 36px;
+  width: 70px;
+  height: 70px;
 }
 
 .logoText {
@@ -199,7 +199,121 @@
     gap: 15px;
   }
 }
+/* Add these styles to your existing Navbar.module.css */
 
+.userSection {
+  position: relative;
+}
+
+.userBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: #f0f0f0;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.userBox:hover {
+  background: #e0e0e0;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.avatarPlaceholder {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 18px;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  text-decoration: none;
+}
+
+.dropdownItem:hover {
+  background: #f5f5f5;
+}
+
+/* Existing button styles adjustment */
+.loginBtn {
+  padding: 10px 24px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.loginBtn:hover {
+  background: #0056b3;
+}
+
+.signUp {
+  padding: 10px 24px;
+  background: transparent;
+  color: #007bff;
+  border: 2px solid #007bff;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.signUp:hover {
+  background: #007bff;
+  color: white;
+}
 @media (max-width: 360px) {
   .navbar {
     padding: 10px 15px;
