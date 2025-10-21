@@ -215,18 +215,8 @@ const Navbar = () => {
             ContactUs
           </NavLink>
         </li>
-        {isLoggedIn && userProfile.userType === 'patient' && (
-          <li>
-            <NavLink 
-              to="/appointment" 
-              className={({ isActive }) => 
-                isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-              }
-            >
-              Appointments
-            </NavLink>
-          </li>
-        )}
+
+        
       </ul>
 
       {/* Right: Auth Section */}
