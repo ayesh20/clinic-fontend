@@ -12,21 +12,22 @@ const apiClient = axios.create({
 // Request interceptor to add auth token
 apiClient.interceptors.request.use(
   (config) => {
+    // Define public endpoints that don't need authentication
     const publicEndpoints = [
       '/patients/login',
       '/patients/register',
       '/doctors/login',
       '/doctors/register',
       '/admin/login',
-      '/doctors',
-      '/doctors/',
       '/contact'
     ];
     
+    // Check if the URL exactly matches a public endpoint or is the public doctors list
     const isPublicEndpoint = publicEndpoints.some(endpoint => 
-      config.url.includes(endpoint)
-    );
+      config.url === endpoint
+    ) || (config.url === '/doctors' && config.method.toLowerCase() === 'get');
     
+    // Add token for all non-public endpoints
     if (!isPublicEndpoint) {
       const token = localStorage.getItem('authToken');
       if (token) {
@@ -34,6 +35,7 @@ apiClient.interceptors.request.use(
       }
     }
     
+    // Handle FormData
     if (config.data instanceof FormData) {
       delete config.headers['Content-Type'];
     }

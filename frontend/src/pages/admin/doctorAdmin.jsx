@@ -100,7 +100,7 @@ export default function DoctorsAdmin() {
             className="form-input"
             style={{ width: '250px', margin: 0 }}
           />
-          <Link to="/admin/doctors/add" className="add-product-btn">
+          <Link to="/admin/adddoctor" className="add-product-btn">
             ➕ Add New Doctor
           </Link>
         </div>
@@ -146,7 +146,7 @@ export default function DoctorsAdmin() {
         <div className="no-doctors">
           <h3>No doctors found</h3>
           <p>{searchTerm ? 'No doctors match your search criteria.' : 'Get started by adding your first doctor!'}</p>
-          <Link to="/admin/doctors/add" className="add-product-btn" style={{ marginTop: '20px', display: 'inline-block' }}>
+          <Link to="/admin/adddoctor" className="add-product-btn" style={{ marginTop: '20px', display: 'inline-block' }}>
             ➕ Add First Doctor
           </Link>
         </div>
@@ -204,13 +204,7 @@ export default function DoctorsAdmin() {
                   </span>
                 </td>
                 <td className="actions">
-                  <button 
-                    className="action-btn view-btn"
-                    onClick={() => navigate(`/admin/doctors/${doctor._id}`)}
-                    title="View Doctor"
-                  >
-                    👁️
-                  </button>
+                 
                   <button 
                     className="action-btn delete-btn"
                     onClick={() => handleDeleteDoctor(doctor._id)}

@@ -8,8 +8,10 @@ export default function Dashboard() {
   const [stats, setStats] = useState({
     totalPatients: 0,
     totalDoctors: 0,
+    totalAppointment:0,
     activePatients: 0,
     activeDoctors: 0,
+    completeappointment:0,
     systemStatus: 'Online'
   })
   const [recentActivity, setRecentActivity] = useState([])
@@ -168,6 +170,12 @@ export default function Dashboard() {
           <div className="stat-number">{stats.totalDoctors}</div>
           <div className="stat-label">{stats.activeDoctors} Active</div>
         </div>
+
+        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => handleNavigateToSection('/admin/appointments')}>
+          <h3>Total Appointments</h3>
+          <div className="stat-number">{stats.totalAppointment}</div>
+          <div className="stat-label">{stats.completeappointment} Complete</div>
+        </div>
         
         <div className="stat-card">
           <h3>System Status</h3>
@@ -192,10 +200,8 @@ export default function Dashboard() {
       <div style={{ marginTop: '40px', marginBottom: '30px' }}>
         <h2 style={{ marginBottom: '20px', color: '#333' }}>Quick Actions</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
-          <Link to="/admin/patients/add" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
-            🏥 Add New Patient
-          </Link>
-          <Link to="/admin/doctors/add" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
+          
+          <Link to="/admin/adddoctor" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>
             👨‍⚕️ Add New Doctor
           </Link>
           <Link to="/admin/patients" className="add-product-btn" style={{ textDecoration: 'none', textAlign: 'center', padding: '20px' }}>

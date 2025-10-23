@@ -8,6 +8,7 @@ import Home from "./pages/Home/Home";
 import Doctors from "./pages/Doctors/Doctors";
 import ContactUs from "./pages/ContactUs/Contactus";
 import Register from "./pages/Signup/Signup.jsx";
+import Login from "./pages/Login/Login.jsx";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import OTPVerification from "./pages/OTPVerification/OTPVerification";
 import ResetConfirm from "./pages/ResetConfirm/ResetConfirm";
@@ -54,11 +55,12 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home />} /> 
             <Route path="/doctors" element={<Doctors />} />
             <Route path="/contactus" element={<ContactUs />} />
             <Route path="/admin/*" element={<AdminLayout />} />
             <Route path="/register" element={<Register />} />
+             <Route path="/login" element={<Login/>}/>
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/otpverification" element={<OTPVerification />} />
             <Route path="/resetconfirm" element={<ResetConfirm />} />
