@@ -126,7 +126,7 @@ const ViewAppointments = () => {
                             </div>
                         ))}
                         <button className={styles.addBtn} onClick={handleAdd}>
-                            Add
+                            Save Appointment
                         </button>
                     </div>
                 </div>
@@ -161,3 +161,4 @@ const ViewAppointments = () => {
 };
 
             export default ViewAppointments;
+
