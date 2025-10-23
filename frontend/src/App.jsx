@@ -21,7 +21,7 @@ import AdminLayout from "./pages/admin/adminpage.jsx";
 import AppointmentDetails from "./pages/AppointmentDetails/AppointmentDetails.jsx";
 
 // ✅ Missing import added
-import ViewAppointments from "./pages/ViewAppointments/ViewAppointments.jsx"; 
+import ViewAppointments from "./pages/ViewAppointments/ViewAppointments.jsx";
 
 // PrivateRoute wrapper
 function PrivateRoute({ children }) {
@@ -55,18 +55,19 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />} /> 
+            <Route path="/" element={<Home />} />
             <Route path="/doctors" element={<Doctors />} />
             <Route path="/contactus" element={<ContactUs />} />
             <Route path="/admin/*" element={<AdminLayout />} />
             <Route path="/register" element={<Register />} />
-             <Route path="/login" element={<Login/>}/>
+            <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/otpverification" element={<OTPVerification />} />
             <Route path="/resetconfirm" element={<ResetConfirm />} />
             <Route path="/setnewpassword" element={<SetNewPassword />} />
             <Route path="/successfulreset" element={<SuccessfulReset />} />
             <Route path="/doctorprofile" element={<DoctorProfile />} />
+            <Route path="/doctors/:doctorId/book" element={<Appointment />} />
 
             {/* Protected Routes */}
             <Route

@@ -1,19 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import styles from './Appointment.module.css';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import api, { patientAPI, doctorAPI } from '../../services/api';
+
+const API_ORIGIN = 'http://localhost:5000';
 
 export default function Appointment() {
+  const { doctorId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Doctor passed from previous page
-  const doctor = location.state?.doctor || {
-    fullName: 'Unknown Doctor',
-    specialization: 'General',
-    profilePicture: '/doctor-placeholder.jpg',
-    bio: 'No description available.'
-  };
+  // Use Link state for instant UI if provided
+  const [doctor, setDoctor] = useState(location.state?.doctor || null);
+  const [loadingDoctor, setLoadingDoctor] = useState(!location.state?.doctor);
+  const [err, setErr] = useState('');
 
+  useEffect(() => {
+    async function loadDoctor() {
+      try {
+        setErr('');
+        setLoadingDoctor(true);
+        // doctorAPI.getDoctorById uses the apiClient with interceptors
+        const doc = await doctorAPI.getDoctorById(doctorId);
+        setDoctor(doc);
+      } catch (e) {
+        console.error(e);
+        setErr(e.message || 'Failed to load doctor');
+      } finally {
+        setLoadingDoctor(false);
+      }
+    }
+    if (doctorId) loadDoctor();
+  }, [doctorId]);
+
+  const doctorImage =
+    doctor?.profilePicture
+      ? (doctor.profilePicture.startsWith('http') ? doctor.profilePicture : `${API_ORIGIN}${doctor.profilePicture}`)
+      : '/images/doctor1.png';
+
+  // Appointment form state
   const [selectedDate, setSelectedDate] = useState('23');
   const [selectedTime, setSelectedTime] = useState('02:00 PM');
   const [formData, setFormData] = useState({
@@ -23,6 +48,37 @@ export default function Appointment() {
     phoneNo: ''
   });
 
+  // Auto-fill from logged-in patient profile
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [userErr, setUserErr] = useState('');
+
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        setLoadingUser(true);
+        setUserErr('');
+
+        // Ensure you stored the patient token at login: localStorage.setItem('authToken', res.token)
+        // Your interceptor will attach Authorization automatically.
+        const me = await patientAPI.getProfile(); // calls GET /patients/profile
+
+        setFormData(prev => ({
+          ...prev,
+          name: me.firstName + ' ' + me.lastName,
+          email: me.email,
+          phoneNo: me.phone
+        }));
+      } catch (e) {
+        console.error('Failed to load user profile', e);
+        // With your apiClient, e is a plain Error with message
+        setUserErr(e.message || 'Could not load your profile. You can fill the fields manually.');
+      } finally {
+        setLoadingUser(false);
+      }
+    }
+    loadUser();
+  }, []);
+
   const dates = [
     { day: 'Mon', date: '21' },
     { day: 'Tue', date: '22' },
@@ -30,7 +86,7 @@ export default function Appointment() {
     { day: 'Thu', date: '24' },
     { day: 'Fri', date: '25' },
     { day: 'Sat', date: '26' },
-    { day: 'Sun', date: '27' }
+    { day: 'Sat', date: '26' }
   ];
 
   const times = [
@@ -46,30 +102,27 @@ export default function Appointment() {
   ];
 
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData(s => ({ ...s, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const appointmentId = 'APT-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const appointmentId = 'APT-' + Math.random().toString(36).slice(2, 9).toUpperCase();
 
     const appointmentDetails = {
-      doctorName: doctor.fullName,
-      department: doctor.specialization,
+      doctorName: doctor?.fullName || 'Doctor',
+      department: doctor?.specialization || '',
       date: `Wed ${selectedDate}`,
       time: selectedTime,
       appointmentId,
       patientName: formData.name,
       contactNo: formData.phoneNo,
       email: formData.email,
-      symptoms: formData.symptoms
+      symptoms: formData.symptoms,
+      doctorId,
     };
 
-    // Navigate to confirmation page with appointment data
     navigate('/appointment-confirmation', { state: appointmentDetails });
   };
 
@@ -77,16 +130,26 @@ export default function Appointment() {
     <div className={styles.appointmentWrapper}>
       <div className={styles.container}>
         <div className={styles.doctorSection}>
-          <img
-            src={doctor.profilePicture || '/doctor-placeholder.jpg'}
-            alt={doctor.fullName}
-            className={styles.doctorImage}
-          />
-          <div className={styles.doctorInfo}>
-            <h2 className={styles.doctorName}>{doctor.fullName}</h2>
-            <p className={styles.specialty}>{doctor.specialization.toUpperCase()}</p>
-            <p className={styles.description}>{doctor.bio || 'No description available.'}</p>
-          </div>
+          {loadingDoctor ? (
+            <div>Loading doctor...</div>
+          ) : err ? (
+            <div style={{ color: 'red' }}>{err}</div>
+          ) : (
+            <>
+              <img
+                src={doctorImage}
+                alt={doctor?.fullName || 'Doctor'}
+                className={styles.doctorImage}
+              />
+              <div className={styles.doctorInfo}>
+                <h2 className={styles.doctorName}>{doctor?.fullName}</h2>
+                <p className={styles.specialty}>{(doctor?.specialization || '').toUpperCase()}</p>
+                <p className={styles.description}>
+                  {doctor?.bio || 'Experienced specialist available for consultation.'}
+                </p>
+              </div>
+            </>
+          )}
         </div>
 
         <div className={styles.bookingSection}>
@@ -119,6 +182,12 @@ export default function Appointment() {
           </div>
 
           <form onSubmit={handleSubmit} className={styles.appointmentForm}>
+            {userErr && (
+              <div style={{ color: '#b45309', background: '#fff7ed', padding: '8px 12px', borderRadius: 6, marginBottom: 8 }}>
+                {userErr}
+              </div>
+            )}
+
             <div className={styles.formGroup}>
               <label className={styles.label}>Name</label>
               <input
@@ -127,6 +196,7 @@ export default function Appointment() {
                 className={styles.input}
                 value={formData.name}
                 onChange={handleInputChange}
+                placeholder={loadingUser ? 'Loading...' : 'Your name'}
                 required
               />
             </div>
@@ -139,6 +209,7 @@ export default function Appointment() {
                 className={styles.input}
                 value={formData.email}
                 onChange={handleInputChange}
+                placeholder={loadingUser ? 'Loading...' : 'you@example.com'}
                 required
               />
             </div>
@@ -151,6 +222,7 @@ export default function Appointment() {
                 className={styles.input}
                 value={formData.symptoms}
                 onChange={handleInputChange}
+                placeholder="Briefly describe your symptoms"
                 required
               />
             </div>
@@ -163,6 +235,7 @@ export default function Appointment() {
                 className={styles.input}
                 value={formData.phoneNo}
                 onChange={handleInputChange}
+                placeholder={loadingUser ? 'Loading...' : 'e.g., +1 555 123 4567'}
                 required
               />
             </div>
