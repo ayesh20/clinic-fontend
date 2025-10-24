@@ -175,7 +175,9 @@ export default function PatientManagement() {
               </select>
             </div>
           </div>
-
+           <button type="submit" className={styles.saveBtn}>
+            Save Changes
+          </button>
           <button type="submit" className={styles.saveBtn}>
             Save Changes
           </button>

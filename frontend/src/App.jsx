@@ -19,6 +19,7 @@ import PatientManagement from "./pages/PatientManagement/PatientManagement.jsx";
 import DoctorProfile from "./pages/DoctorProfile/doctorProfile.jsx";
 import AdminLayout from "./pages/admin/adminpage.jsx";
 import AppointmentDetails from "./pages/AppointmentDetails/AppointmentDetails.jsx";
+import AppointmentConfirmation from "./pages/Appoinmentconform/appointmentconform.jsx";
 
 // ✅ Missing import added
 import ViewAppointments from "./pages/ViewAppointments/ViewAppointments.jsx";
@@ -93,6 +94,15 @@ function App() {
               element={
                 <PrivateRoute>
                   <ViewAppointments />
+                </PrivateRoute>
+              }
+            />
+          
+          <Route
+              path="/appointment-confirmation"
+              element={
+                <PrivateRoute>
+                  <AppointmentConfirmation />
                 </PrivateRoute>
               }
             />

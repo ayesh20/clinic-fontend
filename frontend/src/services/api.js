@@ -25,7 +25,8 @@ apiClient.interceptors.request.use(
     // Check if the URL exactly matches a public endpoint or is the public doctors list
     const isPublicEndpoint = publicEndpoints.some(endpoint => 
       config.url === endpoint
-    ) || (config.url === '/doctors' && config.method.toLowerCase() === 'get');
+    ) || (config.url === '/doctors' && config.method.toLowerCase() === 'get') ||
+       (config.url?.startsWith('/availability/doctor/') && config.method.toLowerCase() === 'get');
     
     // Add token for all non-public endpoints
     if (!isPublicEndpoint) {
@@ -177,6 +178,78 @@ export const doctorAPI = {
   }
 };
 
+// Availability API
+export const availabilityAPI = {
+  createAvailability: async (availabilityData) => {
+    return await apiClient.post('/availability', availabilityData);
+  },
+
+  getMyAvailability: async (startDate, endDate) => {
+    const params = {};
+    if (startDate) params.startDate = startDate;
+    if (endDate) params.endDate = endDate;
+    return await apiClient.get('/availability', { params });
+  },
+
+  getDoctorAvailability: async (doctorId, startDate, endDate) => {
+    const params = {};
+    if (startDate) params.startDate = startDate;
+    if (endDate) params.endDate = endDate;
+    return await apiClient.get(`/availability/doctor/${doctorId}`, { params });
+  },
+
+  updateTimeSlots: async (availabilityId, timeSlots) => {
+    return await apiClient.put(`/availability/${availabilityId}`, { timeSlots });
+  },
+
+  deleteAvailability: async (availabilityId) => {
+    return await apiClient.delete(`/availability/${availabilityId}`);
+  }
+};
+
+// Appointment API
+export const appointmentAPI = {
+  // Create new appointment (Patient only)
+  createAppointment: async (appointmentData) => {
+    return await apiClient.post('/appointments', appointmentData);
+  },
+
+  // Get patient's appointments
+  getPatientAppointments: async (params = {}) => {
+    return await apiClient.get('/appointments/patient', { params });
+  },
+
+  // Get doctor's appointments
+  getDoctorAppointments: async (params = {}) => {
+    return await apiClient.get('/appointments/doctor', { params });
+  },
+
+  // Get single appointment by ID
+  getAppointmentById: async (appointmentId) => {
+    return await apiClient.get(`/appointments/${appointmentId}`);
+  },
+
+  // Update appointment status (Doctor/Admin)
+  updateAppointmentStatus: async (appointmentId, statusData) => {
+    return await apiClient.put(`/appointments/${appointmentId}/status`, statusData);
+  },
+
+  // Cancel appointment
+  cancelAppointment: async (appointmentId, reason) => {
+    return await apiClient.put(`/appointments/${appointmentId}/cancel`, { reason });
+  },
+
+  // Get all appointments (Admin)
+  getAllAppointments: async (params = {}) => {
+    return await apiClient.get('/appointments', { params });
+  },
+
+  // Delete appointment (Admin)
+  deleteAppointment: async (appointmentId) => {
+    return await apiClient.delete(`/appointments/${appointmentId}`);
+  }
+};
+
 // Admin API
 export const adminAPI = {
   login: async (credentials) => {
@@ -204,6 +277,8 @@ const api = {
   patient: patientAPI,
   doctor: doctorAPI,
   admin: adminAPI,
+  availability: availabilityAPI,
+  appointment: appointmentAPI,
 }
 
 export default api

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'; 
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressCard, faUser, faVenusMars, faHeart, faStethoscope, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import styles from "./DoctorProfile.module.css";
@@ -10,6 +11,7 @@ import axios from "axios";
 const TEMP_DOCTOR_IMAGE = 'https://via.placeholder.com/150/0000FF/FFFFFF?text=Dr+Anya';
 
 const DoctorProfile = () => {
+  const navigate = useNavigate();
   const [doctor, setDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isEditingPhoto, setIsEditingPhoto] = useState(false);
@@ -53,6 +55,10 @@ const DoctorProfile = () => {
     setIsEditingPhoto(!isEditingPhoto);
     alert(`Photo Editing mode is now: ${!isEditingPhoto ? 'ON' : 'OFF'}`);
   };
+  
+     const handleMakeAppointment = () => {
+  navigate('/viewappointment');
+};
 
   const handleSaveChanges = async () => {
     const token = localStorage.getItem("authToken");
@@ -218,7 +224,10 @@ const DoctorProfile = () => {
           </label>
           <input type="tel" value={doctor.phone || ""} readOnly className={styles.input} />
         </div>
-
+       
+       <button className={styles.appointmentButton} onClick={handleMakeAppointment}>
+  Make Appointment
+</button>
         {/* Save Changes */}
         <button className={styles.saveButton} onClick={handleSaveChanges}>
           Save Changes

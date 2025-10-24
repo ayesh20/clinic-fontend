@@ -1,105 +1,120 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {  } from '../../services/api'
+import { appointmentAPI } from '../../services/api'
 import './admin.css'
 
 export default function AppointmentAdmin() {
   const navigate = useNavigate()
-  const [students, setStudents] = useState([])
+  const [appointments, setAppointments] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
 
   useEffect(() => {
-    fetchStudents()
+    fetchAppointments()
   }, [])
 
-  const fetchStudents = async () => {
+  const fetchAppointments = async () => {
     try {
       setLoading(true)
+      setError(null)
       
-      // Use studentAPI instead of userAPI
-      const response = await studentAPI.getAllStudents()
+      const response = await appointmentAPI.getAllAppointments()
       
-      // Log the response to debug the structure
-      console.log('Students API Response:', response)
+      console.log('Appointments API Response:', response)
       
-      // Handle different response formats
-      let studentsData = response
-      if (response && response.students) {
-        studentsData = response.students
+      let appointmentsData = response
+      if (response && response.appointments) {
+        appointmentsData = response.appointments
       } else if (response && response.data) {
-        studentsData = response.data
+        appointmentsData = response.data
       }
       
-      // Ensure data is an array
-      if (!Array.isArray(studentsData)) {
-        console.error('API did not return an array:', studentsData)
-        setStudents([])
+      if (!Array.isArray(appointmentsData)) {
+        console.error('API did not return an array:', appointmentsData)
+        setAppointments([])
         setError('Invalid data format received from server')
         return
       }
       
-      // Fetch enrollments for each student
-      const studentsWithEnrollments = await Promise.all(
-        studentsData.map(async (student) => {
-          try {
-            const enrollments = await enrollmentAPI.getEnrollmentsByStudent(student._id)
-            return {
-              ...student,
-              enrollmentsCount: enrollments?.length || 0,
-              enrollments: enrollments || []
-            }
-          } catch (err) {
-            console.error(`Error fetching enrollments for student ${student._id}:`, err)
-            return {
-              ...student,
-              enrollmentsCount: 0,
-              enrollments: []
-            }
-          }
-        })
-      )
+      setAppointments(appointmentsData)
       
-      setStudents(studentsWithEnrollments)
-      setError(null)
     } catch (err) {
-      setError('Failed to fetch students: ' + err.message)
-      console.error('Error fetching students:', err)
-      setStudents([]) // Set empty array on error
+      setError('Failed to fetch appointments: ' + err.message)
+      console.error('Error fetching appointments:', err)
+      setAppointments([])
     } finally {
       setLoading(false)
     }
   }
 
-  const handleDeleteStudent = async (studentId) => {
-    if (window.confirm('Are you sure you want to delete this student? This will also remove all their enrollments.')) {
+  const handleDeleteAppointment = async (appointmentId) => {
+    if (window.confirm('Are you sure you want to delete this appointment?')) {
       try {
-        // Use studentAPI.deleteStudent instead of userAPI.deleteUser
-        await studentAPI.deleteStudent(studentId)
-        fetchStudents()
-        alert('Student deleted successfully!')
+        await appointmentAPI.deleteAppointment(appointmentId)
+        fetchAppointments()
+        alert('Appointment deleted successfully!')
       } catch (err) {
-        alert('Failed to delete student: ' + err.message)
-        console.error('Error deleting student:', err)
+        alert('Failed to delete appointment: ' + err.message)
+        console.error('Error deleting appointment:', err)
       }
     }
   }
 
-  
+  const handleUpdateStatus = async (appointmentId, newStatus) => {
+    try {
+      await appointmentAPI.updateAppointmentStatus(appointmentId, { status: newStatus })
+      fetchAppointments()
+      alert('Appointment status updated successfully!')
+    } catch (err) {
+      alert('Failed to update status: ' + err.message)
+      console.error('Error updating status:', err)
+    }
+  }
 
-  const filteredStudents = students.filter(student =>
-    student.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.phone?.includes(searchTerm)
-  )
+  const getStatusBadgeClass = (status) => {
+    switch(status) {
+      case 'confirmed':
+        return 'status-confirmed'
+      case 'pending':
+        return 'status-pending'
+      case 'completed':
+        return 'status-completed'
+      case 'cancelled':
+        return 'status-cancelled'
+      case 'no-show':
+        return 'status-no-show'
+      default:
+        return ''
+    }
+  }
+
+  const filteredAppointments = appointments.filter(appointment => {
+    const matchesSearch = 
+      appointment.patientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      appointment.doctorName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      appointment.appointmentId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      appointment.patientEmail?.toLowerCase().includes(searchTerm.toLowerCase())
+    
+    const matchesStatus = statusFilter === 'all' || appointment.status === statusFilter
+    
+    return matchesSearch && matchesStatus
+  })
+
+  const stats = {
+    total: appointments.length,
+    pending: appointments.filter(a => a.status === 'pending').length,
+    confirmed: appointments.filter(a => a.status === 'confirmed').length,
+    completed: appointments.filter(a => a.status === 'completed').length,
+    cancelled: appointments.filter(a => a.status === 'cancelled').length
+  }
 
   if (loading) {
     return (
       <div className="dashboard">
-        <h1 className="dashboard-title">Appoinment Management</h1>
-        <div className="loading">Loading Appoinments...</div>
+        <h1 className="dashboard-title">Appointment Management</h1>
+        <div className="loading">Loading appointments...</div>
       </div>
     )
   }
@@ -107,9 +122,9 @@ export default function AppointmentAdmin() {
   if (error) {
     return (
       <div className="dashboard">
-        <h1 className="dashboard-title">Appoinments Management</h1>
+        <h1 className="dashboard-title">Appointment Management</h1>
         <div className="error">Error: {error}</div>
-        <button onClick={fetchStudents} className="retry-btn">Retry</button>
+        <button onClick={fetchAppointments} className="retry-btn">Retry</button>
       </div>
     )
   }
@@ -117,49 +132,84 @@ export default function AppointmentAdmin() {
   return (
     <div className="dashboard">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h1 className="dashboard-title" style={{ marginBottom: 0 }}>Appoinments Management</h1>
+        <h1 className="dashboard-title" style={{ marginBottom: 0 }}>Appointment Management</h1>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          
+          <input
+            type="text"
+            placeholder="Search appointments..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              padding: '8px 12px',
+              borderRadius: '6px',
+              border: '1px solid #ddd',
+              minWidth: '250px'
+            }}
+          />
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            style={{
+              padding: '8px 12px',
+              borderRadius: '6px',
+              border: '1px solid #ddd'
+            }}
+          >
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="no-show">No Show</option>
+          </select>
         </div>
       </div>
 
       {/* Statistics Cards */}
       <div className="dashboard-stats" style={{ marginBottom: '30px' }}>
         <div className="stat-card">
-          <h3>Total Appoinments</h3>
-          <div className="stat-number">{students.length}</div>
-          <div className="stat-label">Registered appoinments</div>
+          <h3>Total Appointments</h3>
+          <div className="stat-number">{stats.total}</div>
+          <div className="stat-label">All appointments</div>
         </div>
         
         <div className="stat-card">
-          <h3>Active Appoinmentss</h3>
-          <div className="stat-number">{students.filter(s => s.status !== 'inactive').length}</div>
-          <div className="stat-label">Currently active</div>
+          <h3>Pending</h3>
+          <div className="stat-number" style={{ color: '#f59e0b' }}>{stats.pending}</div>
+          <div className="stat-label">Awaiting confirmation</div>
         </div>
         
-       
+        <div className="stat-card">
+          <h3>Confirmed</h3>
+          <div className="stat-number" style={{ color: '#3b82f6' }}>{stats.confirmed}</div>
+          <div className="stat-label">Scheduled appointments</div>
+        </div>
         
         <div className="stat-card">
-          <h3>Avg Appoinments</h3>
-          <div className="stat-number">
-            {students.length > 0 ? (students.reduce((sum, s) => sum + s.enrollmentsCount, 0) / students.length).toFixed(1) : 0}
-          </div>
-          <div className="stat-label">Per Doctor</div>
+          <h3>Completed</h3>
+          <div className="stat-number" style={{ color: '#10b981' }}>{stats.completed}</div>
+          <div className="stat-label">Finished appointments</div>
+        </div>
+
+        <div className="stat-card">
+          <h3>Cancelled</h3>
+          <div className="stat-number" style={{ color: '#ef4444' }}>{stats.cancelled}</div>
+          <div className="stat-label">Cancelled bookings</div>
         </div>
       </div>
 
-      {filteredStudents.length === 0 ? (
+      {filteredAppointments.length === 0 ? (
         <div className="no-students">
-          <h3>No Appoinments found</h3>
-          <p>{searchTerm ? 'No appoinments match your search criteria.' : 'No appoinments have registered yet.'}</p>
+          <h3>No Appointments found</h3>
+          <p>{searchTerm || statusFilter !== 'all' ? 'No appointments match your search criteria.' : 'No appointments have been booked yet.'}</p>
         </div>
       ) : (
         <table className="product-table">
           <thead>
             <tr>
-              <th>Appoinment ID</th>
+              <th>Appointment ID</th>
               <th>Patient Name</th>
-              <th>Doctor name</th>
+              <th>Doctor Name</th>
               <th>Phone</th>
               <th>Appoinment Date</th>
               <th>Appoinment time</th>
@@ -168,10 +218,10 @@ export default function AppointmentAdmin() {
             </tr>
           </thead>
           <tbody>
-            {filteredStudents.map((student) => (
-              <tr key={student._id}>
+            {filteredStudents.map((appointment) => (
+              <tr key={appointment._id}>
                 <td style={{ fontFamily: 'monospace', fontWeight: 'bold' }}>
-                  {student.studentId || student._id.slice(-6)}
+                  {appointment.appointmentId || appointment._id.slice(-6)}
                 </td>
                 <td className="username">
                   <div style={{ fontWeight: 'bold' }}>

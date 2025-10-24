@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styles from './AppointmentConfirmation.module.css';
+import styles from './appointmentconform.module.css';
 
 export default function AppointmentConfirmation() {
     const navigate = useNavigate();
@@ -162,7 +162,7 @@ export default function AppointmentConfirmation() {
                     </button>
                     <button 
                         className={styles.homeBtn}
-                        onClick={() => navigate('/Home')}
+                        onClick={() => navigate('/')}
                     >
                         Back to Home
                     </button>
