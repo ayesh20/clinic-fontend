@@ -65,7 +65,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/otpverification" element={<OTPVerification />} />
             <Route path="/resetconfirm" element={<ResetConfirm />} />
-            <Route path="/setnewpassword" element={<SetNewPassword />} />
+            <Route path="/SetNewPassword" element={<SetNewPassword />} />
             <Route path="/successfulreset" element={<SuccessfulReset />} />
             <Route path="/doctorprofile" element={<DoctorProfile />} />
             <Route path="/doctors/:doctorId/book" element={<Appointment />} />

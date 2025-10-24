@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ add this
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
-import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import styles from "./Doctors.module.css";
-import axios from 'axios'
+import axios from "axios";
 
 const API_ORIGIN = "http://localhost:5000";
 const api = axios.create({
@@ -17,18 +17,18 @@ const toAbsolute = (path) => {
 };
 
 const Doctors = () => {
-
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState('');
+  const [err, setErr] = useState("");
+  const [filter, setFilter] = useState("All");
+  const navigate = useNavigate(); // ✅ add this
 
   useEffect(() => {
     async function load() {
       try {
         setLoading(true);
         setErr("");
-
-        const res = await api.get("/doctors",);
+        const res = await api.get("/doctors");
         const list = Array.isArray(res.data) ? res.data : res.data.doctors || [];
         setDoctors(list);
       } catch (e) {
@@ -42,6 +42,18 @@ const Doctors = () => {
     load();
   }, []);
 
+  const filteredDoctors =
+    filter === "All"
+      ? doctors
+      : doctors.filter(
+          (doc) =>
+            doc.specialization?.toLowerCase() === filter.toLowerCase()
+        );
+
+  const handleDoctorClick = (doctor) => {
+    navigate("/appointment", { state: { doctor } }); // ✅ passing doctor data
+  };
+
   return (
     <div className={styles.wrapper}>
       <Navbar />
@@ -51,34 +63,52 @@ const Doctors = () => {
       </div>
 
       <div className={styles.filter}>
-        <label>Filter By Category</label>
-
-        <select>
-          <option>All Categories</option>
-          <option>Cardiologist</option>
-          <option>Neurologist</option>
-          <option>Dentist</option>
-          <option>Pediatrician</option>
-        </select>
+        <label htmlFor="category">Filter By Category:</label>
+        <div className={styles.selectWrapper}>
+          <select
+            id="category"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <option>All</option>
+            <option>Cardiologist</option>
+            <option>Neurologist</option>
+            <option>Dentist</option>
+            <option>Pediatrician</option>
+            <option>Dermatologist</option>
+          </select>
+          <span className={styles.arrow}>▼</span>
+        </div>
       </div>
 
       <div className={styles.cardsContainer}>
-        {Array.isArray(doctors) && doctors.length > 0 ? (
-          doctors.map((doc) => (
-            <DoctorCard
+        {filteredDoctors.length > 0 ? (
+          filteredDoctors.map((doc) => (
+            <div
               key={doc._id}
-              id={doc._id}
-              image={toAbsolute(doc.profilePicture) }
-              name={doc.fullName}
-              specialty={(doc.specialization || "").toUpperCase()}
-              rating={doc.rating ?? 4.7}
-              doctor={doc}
-            />
+              className={styles.doctorCard}
+              onClick={() => handleDoctorClick(doc)} // ✅ navigate on click
+            >
+              <img
+                src={toAbsolute(doc.profilePicture)}
+                alt={doc.fullName}
+                className={styles.doctorImage}
+              />
+              <h3 className={styles.doctorName}>Dr. {doc.fullName}</h3>
+              <p className={styles.specialty}>
+                {(doc.specialization || "General").toUpperCase()}
+              </p>
+              <p className={styles.description}>
+                {doc.bio?.slice(0, 80) ||
+                  "Dedicated and experienced medical professional focused on providing the best care."}
+              </p>
+            </div>
           ))
         ) : !loading && !err ? (
           <div style={{ padding: 16 }}>No doctors found.</div>
         ) : null}
       </div>
+
       <Footer />
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Added useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './OTPVerification.module.css';
+import axios from 'axios';
 
 const OTPVerification = () => {
   const [otp, setOtp] = useState(['', '', '', '', '']);
@@ -8,15 +9,11 @@ const OTPVerification = () => {
   const [timeLeft, setTimeLeft] = useState(60);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const inputRefs = useRef([]);
-  const navigate = useNavigate(); // Added navigate function
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Focus first input on mount
-    if (inputRefs.current[0]) {
-      inputRefs.current[0].focus();
-    }
+    if (inputRefs.current[0]) inputRefs.current[0].focus();
 
-    // Timer for resend button
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
@@ -26,57 +23,32 @@ const OTPVerification = () => {
   }, [timeLeft]);
 
   const handleOtpChange = (index, value) => {
-    if (!/^\d*$/.test(value)) return; // Only allow numbers
-
+    if (!/^\d*$/.test(value)) return;
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Auto-focus to next input if current input has a value
-    if (value && index < 5) {
-      inputRefs.current[index + 1].focus();
-    }
-    
-    // If it's the last input and has a value, focus stays there
+    if (value && index < 4) inputRefs.current[index + 1].focus();
   };
 
   const handleKeyDown = (index, e) => {
-    // Handle backspace
     if (e.key === 'Backspace') {
-      if (!otp[index] && index > 0) {
-        // Move to previous input if current is empty
-        inputRefs.current[index - 1].focus();
-      }
-      
-      // Clear current input
       const newOtp = [...otp];
       newOtp[index] = '';
       setOtp(newOtp);
-    }
-    
-    // Handle arrow keys for navigation
-    else if (e.key === 'ArrowLeft' && index > 0) {
-      inputRefs.current[index - 1].focus();
-    }
-    else if (e.key === 'ArrowRight' && index < 4) {
-      inputRefs.current[index + 1].focus();
-    }
+      if (!otp[index] && index > 0) inputRefs.current[index - 1].focus();
+    } else if (e.key === 'ArrowLeft' && index > 0) inputRefs.current[index - 1].focus();
+    else if (e.key === 'ArrowRight' && index < 4) inputRefs.current[index + 1].focus();
   };
 
   const handleInput = (index, e) => {
-    // Handle when user types in an already filled input
     const value = e.target.value;
     if (value.length > 1) {
-      // If user pastes or types multiple digits, take the last one
       const lastDigit = value.slice(-1);
       const newOtp = [...otp];
       newOtp[index] = lastDigit;
       setOtp(newOtp);
-      
-      // Move to next input if available
-      if (index < 4) {
-        inputRefs.current[index + 1].focus();
-      }
+      if (index < 4) inputRefs.current[index + 1].focus();
     }
   };
 
@@ -86,52 +58,49 @@ const OTPVerification = () => {
     if (/^\d{5}$/.test(pastedData)) {
       const newOtp = pastedData.split('').slice(0, 5);
       setOtp(newOtp);
-      
-      // Update input values and focus last input
       newOtp.forEach((digit, index) => {
-        if (inputRefs.current[index]) {
-          inputRefs.current[index].value = digit;
-        }
+        if (inputRefs.current[index]) inputRefs.current[index].value = digit;
       });
-      
-      if (inputRefs.current[5]) {
-        inputRefs.current[5].focus();
-      }
+      if (inputRefs.current[4]) inputRefs.current[4].focus();
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const code = otp.join('');
-    if (code.length === 5) {
-      console.log('Verifying code:', code);
-      // Add your verification logic here
-      
-      // After successful verification, navigate to ResetConfirm
-      navigate('/ResetConfirm'); // Added navigation
+    try {
+      const res = await axios.post('http://localhost:5000/api/password/verify-otp', {
+        email,
+        otp: code,
+      });
+
+      if (res.data.success) {
+        navigate('/SetNewPassword');
+      } else {
+        alert(res.data.message || 'Invalid OTP');
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || error.message || 'Verification failed');
     }
   };
 
-  const handleResend = () => {
-    setTimeLeft(60);
-    setIsResendDisabled(true);
-    setOtp(['', '', '', '', '']);
-    // Clear all input values
-    inputRefs.current.forEach(input => {
-      if (input) input.value = '';
-    });
-    if (inputRefs.current[0]) {
-      inputRefs.current[0].focus();
+  const handleResend = async () => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/password/forgot-password', { email });
+      if (res.data.success) {
+        setTimeLeft(60);
+        setIsResendDisabled(true);
+        setOtp(['', '', '', '', '']);
+      } else {
+        alert(res.data.message || 'Failed to resend OTP');
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || 'Failed to resend OTP');
     }
-    console.log('Resending OTP to:', email);
-    // Add resend logic here
   };
 
-  // Add onClick handler to focus on the clicked input
   const handleInputClick = (index) => {
-    if (inputRefs.current[index]) {
-      inputRefs.current[index].focus();
-    }
+    if (inputRefs.current[index]) inputRefs.current[index].focus();
   };
 
   return (
@@ -141,8 +110,8 @@ const OTPVerification = () => {
         <p className={styles.subtitle}>
           We sent a reset link to <span className={styles.email}>{email}</span>
         </p>
-        <p className={styles.instruction}>enter 5 digit code that mentioned in the email</p>
-        
+        <p className={styles.instruction}>Enter 5-digit code from the email</p>
+
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.otpContainer}>
             {otp.map((digit, index) => (
@@ -164,9 +133,9 @@ const OTPVerification = () => {
               />
             ))}
           </div>
-          
-          <button 
-            type="submit" 
+
+          <button
+            type="submit"
             className={styles.verifyButton}
             disabled={otp.join('').length !== 5}
           >
