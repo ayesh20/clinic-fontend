@@ -272,6 +272,14 @@ export const adminAPI = {
 // Export the axios instance for custom requests
 export { apiClient }
 
+// Password API
+export const passwordAPI = {
+  sendOtp: async (email) => await apiClient.post('/password/forgot-password', { email }),
+  verifyOtp: async (email, otp) => await apiClient.post('/password/verify-otp', { email, otp }),
+  resetPassword: async (email, newPassword) =>
+    await apiClient.post('/password/reset-password', { email, newPassword }),
+};
+
 // Export all APIs as default object
 const api = {
   patient: patientAPI,
@@ -279,6 +287,11 @@ const api = {
   admin: adminAPI,
   availability: availabilityAPI,
   appointment: appointmentAPI,
+  password: passwordAPI,
+
 }
+
+
+
 
 export default api
